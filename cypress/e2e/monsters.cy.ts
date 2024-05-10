@@ -1,4 +1,5 @@
 import { Monster } from '../../src/models/interfaces/monster.interface';
+import MonstersForm from '../page_objects/MonstersForm';
 
 describe('Monsters', () => {
   const monster: Monster = {
@@ -10,9 +11,10 @@ describe('Monsters', () => {
     speed: 40,
     imageUrl: '',
   };
+  const monstersForm = new MonstersForm();
 
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    monstersForm.open();
   });
 
   describe('Form', () => {
@@ -29,12 +31,7 @@ describe('Monsters', () => {
           defense: ${defense}, 
           hp:      ${hp}, 
           speed:   ${speed}`, () => {
-        cy.get('[data-testid="monster-name"]').type(name || '{backspace}');
-        hp && cy.get('[data-testid="hp-value"]').type(hp.toString());
-        attack && cy.get('[data-testid="attack-value"]').type(attack.toString());
-        defense && cy.get('[data-testid="defense-value"]').type(defense.toString());
-        speed && cy.get('[data-testid="speed-value"]').type(speed.toString());
-        cy.get('[data-testid="btn-create-monster"]').click();
+        monstersForm.createInvalid(name, attack, defense, hp, speed);
 
         cy.get('.MuiAlert-message').should('contain.text', 'required');
       });
@@ -51,18 +48,19 @@ describe('Monsters', () => {
         imageUrl: '',
       };
 
-      cy.get('[data-testid="monster-name"]').type(noImageMonster.name);
-      cy.get('[data-testid="hp-value"]').type(noImageMonster.hp.toString());
-      cy.get('[data-testid="attack-value"]').type(noImageMonster.attack.toString());
-      cy.get('[data-testid="defense-value"]').type(noImageMonster.defense.toString());
-      cy.get('[data-testid="speed-value"]').type(noImageMonster.speed.toString());
-      cy.get('[data-testid="btn-create-monster"]').click();
+      monstersForm.createValidWithoutImage(
+        noImageMonster.name,
+        noImageMonster.attack,
+        noImageMonster.defense,
+        noImageMonster.hp,
+        noImageMonster.speed
+      );
 
       cy.get('[data-testid="card-monster-name"]').should('contain.text', noImageMonster.name);
     });
 
     it('should create a monster given all values and image', () => {
-      createMonster(monster);
+      monstersForm.create(monster);
 
       cy.get('[data-testid="card-monster-name"]').should('contain.text', monster.name);
     });
@@ -70,14 +68,14 @@ describe('Monsters', () => {
 
   describe('List', () => {
     it('should delete a monster given one is created', () => {
-      createMonster(monster);
+      monstersForm.create(monster);
       cy.get('[data-testid="btn-delete"]').click();
 
       cy.get('[data-testid="dynamic-title"]').should('have.text', 'There are no monsters');
     });
 
     it('should favorite and unfavorite given a monster is created', () => {
-      createMonster(monster);
+      monstersForm.create(monster);
       cy.get('[data-testid="favorite-btn"]').click();
       cy.get('[data-testid="favorite-btn"]').should('have.attr', 'style', 'color: red;');
 
@@ -86,14 +84,3 @@ describe('Monsters', () => {
     });
   });
 });
-
-const createMonster = (monster: Monster) => {
-  cy.get('[data-testid="monster-name"]').type(monster.name);
-  cy.get('[data-testid="hp-value"]').type(monster.hp.toString());
-  cy.get('[data-testid="attack-value"]').type(monster.attack.toString());
-  cy.get('[data-testid="defense-value"]').type(monster.defense.toString());
-  cy.get('[data-testid="speed-value"]').type(monster.speed.toString());
-  const random = Math.floor(Math.random() * 5) + 1;
-  cy.get(`[data-testid="monster-${random}"]`).click();
-  cy.get('[data-testid="btn-create-monster"]').click();
-};
