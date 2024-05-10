@@ -1,5 +1,6 @@
 import { Monster } from '../../src/models/interfaces/monster.interface';
 import MonstersForm from '../page_objects/MonstersForm';
+import MonstersList from '../page_objects/MonstersList';
 
 describe('Monsters', () => {
   const monster: Monster = {
@@ -12,6 +13,7 @@ describe('Monsters', () => {
     imageUrl: '',
   };
   const monstersForm = new MonstersForm();
+  const monstersList = new MonstersList();
 
   beforeEach(() => {
     monstersForm.open();
@@ -69,17 +71,18 @@ describe('Monsters', () => {
   describe('List', () => {
     it('should delete a monster given one is created', () => {
       monstersForm.create(monster);
-      cy.get('[data-testid="btn-delete"]').click();
+      monstersList.delete();
 
       cy.get('[data-testid="dynamic-title"]').should('have.text', 'There are no monsters');
     });
 
     it('should favorite and unfavorite given a monster is created', () => {
       monstersForm.create(monster);
-      cy.get('[data-testid="favorite-btn"]').click();
+      monstersList.clickFavorite();
+
       cy.get('[data-testid="favorite-btn"]').should('have.attr', 'style', 'color: red;');
 
-      cy.get('[data-testid="favorite-btn"]').click();
+      monstersList.clickFavorite();
       cy.get('[data-testid="favorite-btn"]').should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
     });
   });
