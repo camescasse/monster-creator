@@ -16,7 +16,7 @@ describe('Monsters', () => {
   const monstersList = new MonstersList();
 
   beforeEach(() => {
-    monstersForm.open();
+    cy.visit('http://localhost:3000/');
   });
 
   describe('Form', () => {
@@ -35,7 +35,7 @@ describe('Monsters', () => {
           speed:   ${speed}`, () => {
         monstersForm.createInvalid(name, attack, defense, hp, speed);
 
-        cy.get('.MuiAlert-message').should('contain.text', 'required');
+        monstersForm.requiredAlert.should('contain.text', 'required');
       });
     });
 
@@ -58,13 +58,13 @@ describe('Monsters', () => {
         noImageMonster.speed
       );
 
-      cy.get('[data-testid="card-monster-name"]').should('contain.text', noImageMonster.name);
+      monstersList.monsterName.should('contain.text', noImageMonster.name);
     });
 
     it('should create a monster given all values and image', () => {
       monstersForm.create(monster);
 
-      cy.get('[data-testid="card-monster-name"]').should('contain.text', monster.name);
+      monstersList.monsterName.should('contain.text', monster.name);
     });
   });
 
@@ -73,17 +73,17 @@ describe('Monsters', () => {
       monstersForm.create(monster);
       monstersList.delete();
 
-      cy.get('[data-testid="dynamic-title"]').should('have.text', 'There are no monsters');
+      monstersList.title.should('have.text', 'There are no monsters');
     });
 
     it('should favorite and unfavorite given a monster is created', () => {
       monstersForm.create(monster);
       monstersList.clickFavorite();
 
-      cy.get('[data-testid="favorite-btn"]').should('have.attr', 'style', 'color: red;');
+      monstersList.favoriteButton.should('have.attr', 'style', 'color: red;');
 
       monstersList.clickFavorite();
-      cy.get('[data-testid="favorite-btn"]').should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
+      monstersList.favoriteButton.should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
     });
   });
 });

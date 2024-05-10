@@ -1,36 +1,64 @@
 import { Monster } from '../../src/models/interfaces/monster.interface';
 
 export default class MonstersForm {
-  open() {
-    cy.visit('http://localhost:3000/');
+  get name() {
+    return cy.get('[data-testid="monster-name"]');
+  }
+
+  get hp() {
+    return cy.get('[data-testid="hp-value"]');
+  }
+
+  get attack() {
+    return cy.get('[data-testid="attack-value"]');
+  }
+
+  get defense() {
+    return cy.get('[data-testid="defense-value"]');
+  }
+
+  get speed() {
+    return cy.get('[data-testid="speed-value"]');
+  }
+
+  get createButton() {
+    return cy.get('[data-testid="btn-create-monster"]');
+  }
+
+  get requiredAlert() {
+    return cy.get('.MuiAlert-message');
+  }
+
+  randomImage() {
+    const random = Math.floor(Math.random() * 5) + 1;
+    return cy.get(`[data-testid="monster-${random}"]`).click();
   }
 
   createInvalid(name: string, attack: number, defense: number, hp: number, speed: number) {
-    cy.get('[data-testid="monster-name"]').type(name || '{backspace}');
-    hp && cy.get('[data-testid="hp-value"]').type(hp.toString());
-    attack && cy.get('[data-testid="attack-value"]').type(attack.toString());
-    defense && cy.get('[data-testid="defense-value"]').type(defense.toString());
-    speed && cy.get('[data-testid="speed-value"]').type(speed.toString());
-    cy.get('[data-testid="btn-create-monster"]').click();
+    this.name.type(name || '{backspace}');
+    hp && this.hp.type(hp.toString());
+    attack && this.attack.type(attack.toString());
+    defense && this.defense.type(defense.toString());
+    speed && this.speed.type(speed.toString());
+    this.createButton.click();
   }
 
   createValidWithoutImage(name: string, attack: number, defense: number, hp: number, speed: number) {
-    cy.get('[data-testid="monster-name"]').type(name);
-    cy.get('[data-testid="hp-value"]').type(hp.toString());
-    cy.get('[data-testid="attack-value"]').type(attack.toString());
-    cy.get('[data-testid="defense-value"]').type(defense.toString());
-    cy.get('[data-testid="speed-value"]').type(speed.toString());
-    cy.get('[data-testid="btn-create-monster"]').click();
+    this.name.type(name);
+    this.hp.type(hp.toString());
+    this.attack.type(attack.toString());
+    this.defense.type(defense.toString());
+    this.speed.type(speed.toString());
+    this.createButton.click();
   }
 
   create(monster: Monster) {
-    cy.get('[data-testid="monster-name"]').type(monster.name);
-    cy.get('[data-testid="hp-value"]').type(monster.hp.toString());
-    cy.get('[data-testid="attack-value"]').type(monster.attack.toString());
-    cy.get('[data-testid="defense-value"]').type(monster.defense.toString());
-    cy.get('[data-testid="speed-value"]').type(monster.speed.toString());
-    const random = Math.floor(Math.random() * 5) + 1;
-    cy.get(`[data-testid="monster-${random}"]`).click();
-    cy.get('[data-testid="btn-create-monster"]').click();
+    this.name.type(monster.name);
+    this.hp.type(monster.hp.toString());
+    this.attack.type(monster.attack.toString());
+    this.defense.type(monster.defense.toString());
+    this.speed.type(monster.speed.toString());
+    this.randomImage().click();
+    this.createButton.click();
   }
 }

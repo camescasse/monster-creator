@@ -1,9 +1,25 @@
 export default class MonstersList {
+  get deleteButton() {
+    return cy.get('[data-testid="btn-delete"]');
+  }
+
+  get favoriteButton() {
+    return cy.get('[data-testid="favorite-btn"]');
+  }
+
+  get monsterName() {
+    return cy.get('[data-testid="card-monster-name"]');
+  }
+
+  get title() {
+    return cy.get('[data-testid="dynamic-title"]');
+  }
+
   delete() {
-    cy.get('[data-testid="btn-delete"]').click();
+    this.deleteButton.click();
   }
 
   clickFavorite() {
-    cy.get('[data-testid="favorite-btn"]').click();
+    this.favoriteButton.click();
   }
 }
