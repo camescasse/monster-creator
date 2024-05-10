@@ -1,8 +1,4 @@
 export default class MonstersList {
-  get deleteButton() {
-    return cy.get('[data-testid="btn-delete"]');
-  }
-
   get favoriteButton() {
     return cy.get('[data-testid="favorite-btn"]');
   }
@@ -16,10 +12,10 @@ export default class MonstersList {
   }
 
   delete() {
-    this.deleteButton.click();
+    cy.get('[data-testid="btn-delete"]').click();
   }
 
-  clickFavorite() {
+  favorite() {
     this.favoriteButton.click();
   }
 }

@@ -1,6 +1,6 @@
 import { Monster } from '../../src/models/interfaces/monster.interface';
-import MonstersForm from '../page_objects/MonstersForm';
-import MonstersList from '../page_objects/MonstersList';
+import MonstersForm from './page_objects/MonstersForm';
+import MonstersList from './page_objects/MonstersList';
 
 describe('Monsters', () => {
   const monster: Monster = {
@@ -33,9 +33,10 @@ describe('Monsters', () => {
           defense: ${defense}, 
           hp:      ${hp}, 
           speed:   ${speed}`, () => {
-        monstersForm.createInvalid(name, attack, defense, hp, speed);
+        monstersForm.fill(name, attack, defense, hp, speed);
+        monstersForm.create();
 
-        monstersForm.requiredAlert.should('contain.text', 'required');
+        monstersForm.alertMessage.should('contain.text', 'required');
       });
     });
 
@@ -50,19 +51,22 @@ describe('Monsters', () => {
         imageUrl: '',
       };
 
-      monstersForm.createValidWithoutImage(
+      monstersForm.fill(
         noImageMonster.name,
         noImageMonster.attack,
         noImageMonster.defense,
         noImageMonster.hp,
         noImageMonster.speed
       );
+      monstersForm.create();
 
       monstersList.monsterName.should('contain.text', noImageMonster.name);
     });
 
     it('should create a monster given all values and image', () => {
-      monstersForm.create(monster);
+      monstersForm.fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed);
+      monstersForm.randomImage();
+      monstersForm.create();
 
       monstersList.monsterName.should('contain.text', monster.name);
     });
@@ -70,19 +74,23 @@ describe('Monsters', () => {
 
   describe('List', () => {
     it('should delete a monster given one is created', () => {
-      monstersForm.create(monster);
+      monstersForm.fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed);
+      monstersForm.randomImage();
+      monstersForm.create();
       monstersList.delete();
 
       monstersList.title.should('have.text', 'There are no monsters');
     });
 
     it('should favorite and unfavorite given a monster is created', () => {
-      monstersForm.create(monster);
-      monstersList.clickFavorite();
+      monstersForm.fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed);
+      monstersForm.randomImage();
+      monstersForm.create();
+      monstersList.favorite();
 
       monstersList.favoriteButton.should('have.attr', 'style', 'color: red;');
 
-      monstersList.clickFavorite();
+      monstersList.favorite();
       monstersList.favoriteButton.should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
     });
   });
