@@ -23,9 +23,10 @@ export default class MonstersForm {
     return cy.get('.MuiAlert-message');
   }
 
-  randomImage() {
+  selectRandomImage() {
     const random = Math.floor(Math.random() * 5) + 1;
-    return cy.get(`[data-testid="monster-${random}"]`).click();
+    cy.get(`[data-testid="monster-${random}"]`).click();
+    return this;
   }
 
   fill(name: string, attack: number, defense: number, hp: number, speed: number) {
@@ -34,6 +35,7 @@ export default class MonstersForm {
     attack && this.attack.type(attack.toString());
     defense && this.defense.type(defense.toString());
     speed && this.speed.type(speed.toString());
+    return this;
   }
 
   create() {

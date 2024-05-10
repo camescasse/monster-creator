@@ -33,8 +33,7 @@ describe('Monsters', () => {
           defense: ${defense}, 
           hp:      ${hp}, 
           speed:   ${speed}`, () => {
-        monstersForm.fill(name, attack, defense, hp, speed);
-        monstersForm.create();
+        monstersForm.fill(name, attack, defense, hp, speed).create();
 
         monstersForm.alertMessage.should('contain.text', 'required');
       });
@@ -51,22 +50,24 @@ describe('Monsters', () => {
         imageUrl: '',
       };
 
-      monstersForm.fill(
-        noImageMonster.name,
-        noImageMonster.attack,
-        noImageMonster.defense,
-        noImageMonster.hp,
-        noImageMonster.speed
-      );
-      monstersForm.create();
+      monstersForm
+        .fill(
+          noImageMonster.name,
+          noImageMonster.attack,
+          noImageMonster.defense,
+          noImageMonster.hp,
+          noImageMonster.speed
+        )
+        .create();
 
       monstersList.monsterName.should('contain.text', noImageMonster.name);
     });
 
     it('should create a monster given all values and image', () => {
-      monstersForm.fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed);
-      monstersForm.randomImage();
-      monstersForm.create();
+      monstersForm
+        .fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed)
+        .selectRandomImage()
+        .create();
 
       monstersList.monsterName.should('contain.text', monster.name);
     });
@@ -74,18 +75,20 @@ describe('Monsters', () => {
 
   describe('List', () => {
     it('should delete a monster given one is created', () => {
-      monstersForm.fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed);
-      monstersForm.randomImage();
-      monstersForm.create();
+      monstersForm
+        .fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed)
+        .selectRandomImage()
+        .create();
       monstersList.delete();
 
       monstersList.title.should('have.text', 'There are no monsters');
     });
 
     it('should favorite and unfavorite given a monster is created', () => {
-      monstersForm.fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed);
-      monstersForm.randomImage();
-      monstersForm.create();
+      monstersForm
+        .fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed)
+        .selectRandomImage()
+        .create();
       monstersList.favorite();
 
       monstersList.favoriteButton.should('have.attr', 'style', 'color: red;');
