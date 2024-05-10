@@ -93,7 +93,7 @@ const createMonster = (monster: Monster) => {
   cy.get('[data-testid="attack-value"]').type(monster.attack.toString());
   cy.get('[data-testid="defense-value"]').type(monster.defense.toString());
   cy.get('[data-testid="speed-value"]').type(monster.speed.toString());
-  const random = Math.floor(Math.random() * 5);
+  const random = Math.floor(Math.random() * 5) + 1;
   cy.get(`[data-testid="monster-${random}"]`).click();
   cy.get('[data-testid="btn-create-monster"]').click();
 };
