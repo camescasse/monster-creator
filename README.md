@@ -4,7 +4,7 @@ React + TypeScript project that let's you create different kinds of Monsters wit
 
 ## Getting Started
 
-1. Install Node.js on your local machine.
+1. Install [Node.js](https://nodejs.org/en) on your local machine.
 2. Clone this repository `git clone <repo-url>`.
 3. Navigate to this project's folder.
 4. Install dependencies:
@@ -36,7 +36,7 @@ npm test
 These kind of tests have been written using Cypress and there are two ways run them:
 
 > [!NOTE]
-> For a full list of the End-to-End Test Plan, click [here](url).
+> For a full list of the End-to-End Test Plan, click [here](https://github.com/camescasse/cypress-fullstacklabs-assessment/blob/main/TESTPLAN.md).
 
 #### Using a GUI for local development
 
