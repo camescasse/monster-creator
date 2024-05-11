@@ -1,3 +1,5 @@
+import { Monster } from '../../../src/models/interfaces/monster.interface';
+
 export default class MonstersForm {
   get name() {
     return cy.get('[data-testid="monster-name"]');
@@ -29,12 +31,12 @@ export default class MonstersForm {
     return this;
   }
 
-  fill(name: string, attack: number, defense: number, hp: number, speed: number) {
-    this.name.type(name || '{backspace}');
-    hp && this.hp.type(hp.toString());
-    attack && this.attack.type(attack.toString());
-    defense && this.defense.type(defense.toString());
-    speed && this.speed.type(speed.toString());
+  fill(monster: Monster) {
+    this.name.type(monster.name || '{backspace}');
+    monster.hp && this.hp.type(monster.hp.toString());
+    monster.attack && this.attack.type(monster.attack.toString());
+    monster.defense && this.defense.type(monster.defense.toString());
+    monster.speed && this.speed.type(monster.speed.toString());
     return this;
   }
 

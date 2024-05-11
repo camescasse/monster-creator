@@ -1,8 +1,12 @@
 import { Monster } from '../../src/models/interfaces/monster.interface';
 import MonstersForm from './page_objects/MonstersForm';
 import MonstersList from './page_objects/MonstersList';
+import 'dotenv/config';
 
 describe('Monsters', () => {
+  const form = new MonstersForm();
+  const list = new MonstersList();
+
   const monster: Monster = {
     id: '',
     name: 'monstrote',
@@ -12,8 +16,6 @@ describe('Monsters', () => {
     speed: 40,
     imageUrl: '',
   };
-  const monstersForm = new MonstersForm();
-  const monstersList = new MonstersList();
 
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
@@ -26,75 +28,47 @@ describe('Monsters', () => {
       { id: '', name: 'monstrito', attack: 10, defense: 0, hp: 0, speed: 0, imageUrl: '' },
       { id: '', name: 'monstrito', attack: 10, defense: 20, hp: 0, speed: 0, imageUrl: '' },
       { id: '', name: 'monstrito', attack: 10, defense: 20, hp: 30, speed: 0, imageUrl: '' },
-    ].forEach(({ name, attack, defense, hp, speed }) => {
+    ].forEach(monster => {
       it(`should show a warning given 
-          name:    ${name}, 
-          attack:  ${attack}, 
-          defense: ${defense}, 
-          hp:      ${hp}, 
-          speed:   ${speed}`, () => {
-        monstersForm.fill(name, attack, defense, hp, speed).create();
+          name:    ${monster.name}, 
+          attack:  ${monster.attack}, 
+          defense: ${monster.defense}, 
+          hp:      ${monster.hp}, 
+          speed:   ${monster.speed}`, () => {
+        form.fill(monster).create();
 
-        monstersForm.alertMessage.should('contain.text', 'required');
+        form.alertMessage.should('contain.text', 'required');
       });
     });
 
     it('should create a monster given all values except image', () => {
-      const noImageMonster: Monster = {
-        id: '',
-        name: 'monstrote',
-        attack: 10,
-        defense: 20,
-        hp: 30,
-        speed: 40,
-        imageUrl: '',
-      };
+      form.fill(monster).create();
 
-      monstersForm
-        .fill(
-          noImageMonster.name,
-          noImageMonster.attack,
-          noImageMonster.defense,
-          noImageMonster.hp,
-          noImageMonster.speed
-        )
-        .create();
-
-      monstersList.monsterName.should('contain.text', noImageMonster.name);
+      list.monsterName.should('contain.text', monster.name);
     });
 
     it('should create a monster given all values and image', () => {
-      monstersForm
-        .fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed)
-        .selectRandomImage()
-        .create();
+      form.fill(monster).selectRandomImage().create();
 
-      monstersList.monsterName.should('contain.text', monster.name);
+      list.monsterName.should('contain.text', monster.name);
     });
   });
 
   describe('List', () => {
     it('should delete a monster given one is created', () => {
-      monstersForm
-        .fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed)
-        .selectRandomImage()
-        .create();
-      monstersList.delete();
+      form.fill(monster).selectRandomImage().create();
+      list.delete();
 
-      monstersList.title.should('have.text', 'There are no monsters');
+      list.title.should('have.text', 'There are no monsters');
     });
 
     it('should favorite and unfavorite given a monster is created', () => {
-      monstersForm
-        .fill(monster.name, monster.attack, monster.defense, monster.hp, monster.speed)
-        .selectRandomImage()
-        .create();
-      monstersList.favorite();
+      form.fill(monster).selectRandomImage().create();
+      list.favorite();
 
-      monstersList.favoriteButton.should('have.attr', 'style', 'color: red;');
-
-      monstersList.favorite();
-      monstersList.favoriteButton.should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
+      list.favoriteButton.should('have.attr', 'style', 'color: red;');
+      list.favorite();
+      list.favoriteButton.should('have.attr', 'style', 'color: rgba(0, 0, 0, 0.6);');
     });
   });
 });
