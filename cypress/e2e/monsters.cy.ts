@@ -18,7 +18,9 @@ describe('Monsters', () => {
   };
 
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    const BASE_URL = Cypress.config('baseUrl');
+    if (!BASE_URL) throw new Error('Please add the BASE_URL environment variable to your .env file.');
+    cy.visit(BASE_URL);
   });
 
   describe('Form', () => {
