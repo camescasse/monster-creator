@@ -1,36 +1,58 @@
-# Tests Plan
+# Monster Creator
 
-## Form Tests
+React + TypeScript project that let's you create different kinds of Monsters with their corresponding `name`, `attack`, `hp`, `defense`, `speed` and `image`.
 
-1. Create monster, all fields empty
-   - "All fields are required" warning
-1. Create monster, Name entered
-   - "All fields are required" warning
-1. Create monster, Name, HP entered 
-   - "All fields are required" warning
-1. Create monster, Name, HP, Attack entered
-   - "All fields are required" warning
-1. Create monster, Name, HP, Attack , Defense entered 
-   - "All fields are required" warning
-1. Create monster, Name, HP, Attack , Defense, Speed entered
-   - Monster is created with no placeholder image
-1. Create monster, Name, HP, Attack , Defense, Speed entered, image selected
-   - Monster is created with correct image
+## Getting Started
 
-## List tests
+1. Install Node.js on your local machine.
+2. Clone this repository `git clone <repo-url>`.
+3. Navigate to this project's folder.
+4. Install dependencies:
 
-1. Delete monster
-   - Is deleted
-1. Favorite/unfavorite monster 
-   - Is favorited, assert [then] is unfavorited, assert
+   ```
+   npm install
+   ```
+5. Run the app locally:
 
-## Cleanup
+   ```
+   npm run dev
+   ```
+   
+> [!IMPORTANT]
+> The recommended Node.js version is: ```v16.10.0-v17.0.0```
 
-1. Delete all monsters
-   - There are no monsters shown
+## Testing
 
-## Other potential tests
+### Unit tests
 
-1. Viewport responsiveness : Is responsive
+There are two kinds of tests in this project, there are components based unit tests that can be executed via running:
 
-  
+```
+npm test
+```
+
+### End-to-End tests
+
+These kind of tests have been written using Cypress and there are two ways run them:
+
+> [!NOTE]
+> For a full list of the End-to-End Test Plan, click [here](url).
+
+#### Using a GUI for local development
+
+The recommended to run Cypress tests locally is using their GUI, for this you will need to run:
+
+```
+npm run cy
+```
+
+#### Headless mode for CI/CD
+
+Another alternative is run these tests on a browser in headless mode, like this:
+
+```
+npm run cy:hl
+```
+
+> [!NOTE]
+> If you are not familiar with what headless mode means, you can visit [this](https://docs.cypress.io/guides/guides/command-line) documentation.
