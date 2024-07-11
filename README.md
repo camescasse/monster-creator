@@ -38,6 +38,16 @@ These kind of tests have been written using Cypress and there are two ways run t
 > [!NOTE]
 > For a full list of the End-to-End Test Plan, click [here](https://github.com/camescasse/cypress-fullstacklabs-assessment/blob/main/TESTPLAN.md).
 
+#### Setup
+
+Create a `.env` file in the project root, and define the following key/value pair, where `*` is replaced with the desired environment to run against.
+
+`BASE_URL="*"`
+
+Default for testing against local environment should be: `http://localhost:3000/`
+
+For testing against production, the web app is currently deployed in `https://monster-creator.camescasse.dev/`
+
 #### Using a GUI for local development
 
 The recommended to run Cypress tests locally is using their GUI, for this you will need to run:
