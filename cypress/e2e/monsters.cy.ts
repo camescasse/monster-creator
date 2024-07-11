@@ -1,7 +1,7 @@
+import 'dotenv/config';
 import { Monster } from '../../src/models/interfaces/monster.interface';
 import MonstersForm from './page_objects/MonstersForm';
 import MonstersList from './page_objects/MonstersList';
-import 'dotenv/config';
 
 describe('Monsters', () => {
   const form = new MonstersForm();
