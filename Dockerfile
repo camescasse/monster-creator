@@ -4,6 +4,7 @@ USER app
 WORKDIR /app
 COPY --chown=app:node package*.json .
 RUN npm install
+RUN mkdir data
 COPY . .
 ENV BASE_URL="http://localhost:3000"
 EXPOSE 3000
