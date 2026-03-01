@@ -1,13 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { CreateMonsterForm } from './CreateMonsterForm';
-import { CreatedMonsterFormTestIds } from '../../constants/data-testids';
+import { fireEvent, render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { CreateMonsterForm } from "./CreateMonsterForm";
+import { CreatedMonsterFormTestIds } from "../../constants/data-testids";
 
-describe('CreateMonsterForm', () => {
-  it('renders without error', () => {
+describe("CreateMonsterForm", () => {
+  it("renders without error", () => {
     let getMonsterInfoMock;
 
-    getMonsterInfoMock = jest.fn();
+    getMonsterInfoMock = vi.fn();
     render(<CreateMonsterForm getMonsterInfo={getMonsterInfoMock} />);
 
     const elements = {
@@ -26,13 +26,14 @@ describe('CreateMonsterForm', () => {
     expect(elements.btn).toBeInTheDocument();
   });
 
-  it('displays an alert and disables create monster button when there is an empty field', () => {
-    let getMonsterInfoMock = jest.fn();
+  it("displays an alert and disables create monster button when there is an empty field", async () => {
+    let getMonsterInfoMock = vi.fn();
+    const user = userEvent.setup();
     render(<CreateMonsterForm getMonsterInfo={getMonsterInfoMock} />);
 
-    userEvent.type(
+    await user.type(
       screen.getByTestId(CreatedMonsterFormTestIds.name),
-      'Dead Unicorn',
+      "Dead Unicorn",
     );
     fireEvent.click(
       screen.getByTestId(CreatedMonsterFormTestIds.createMonsterBtn),
@@ -40,15 +41,16 @@ describe('CreateMonsterForm', () => {
 
     const alert = screen.getByTestId(CreatedMonsterFormTestIds.alert);
     const disabledBtn = screen.getByTestId(
-      CreatedMonsterFormTestIds.createMonsterBtnDisabled,
+      CreatedMonsterFormTestIds.createMonsterBtn,
     );
 
     expect(alert).toBeInTheDocument();
-    expect(disabledBtn).toBeInTheDocument();
+    expect(disabledBtn).toBeDisabled();
   });
 
-  it('enables create monster button if all fields are complete', () => {
-    const getMonsterInfoMock = jest.fn();
+  it("enables create monster button if all fields are complete", async () => {
+    const getMonsterInfoMock = vi.fn();
+    const user = userEvent.setup();
     render(<CreateMonsterForm getMonsterInfo={getMonsterInfoMock} />);
 
     const elements = {
@@ -60,11 +62,11 @@ describe('CreateMonsterForm', () => {
       btn: screen.getByTestId(CreatedMonsterFormTestIds.createMonsterBtn),
     };
 
-    userEvent.type(elements.name, 'Dead Unicorn');
-    userEvent.type(elements.hp, '80');
-    userEvent.type(elements.attack, '75');
-    userEvent.type(elements.speed, '90');
-    userEvent.type(elements.defense, '100');
+    await user.type(elements.name, "Dead Unicorn");
+    await user.type(elements.hp, "80");
+    await user.type(elements.attack, "75");
+    await user.type(elements.speed, "90");
+    await user.type(elements.defense, "100");
 
     fireEvent.click(elements.btn);
     expect(elements.btn).toBeInTheDocument();

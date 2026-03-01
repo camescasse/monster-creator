@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Divider, Grid } from '@mui/material';
-import { Monster } from '../../models/interfaces/monster.interface';
+import { useState } from "react";
+import { Divider, Grid } from "@mui/material";
+import { Monster } from "../../models/interfaces/monster.interface";
 import {
   MonsterCard,
   MonsterTitle,
@@ -10,8 +10,8 @@ import {
   DeleteButton,
   FavIcon,
   MonsterFigure,
-} from './MonsterCardList.styled';
-import { MonsterCardTestIds } from '../../constants/data-testids';
+} from "./MonsterCardList.styled";
+import { MonsterCardTestIds } from "../../constants/data-testids";
 
 type MonsterCardProps = {
   monster?: Monster | null;
@@ -22,15 +22,15 @@ const MonsterCardList: React.FC<MonsterCardProps> = ({
   monster,
   handleDelete,
 }) => {
-  const [color, setColor] = useState('#00000099');
+  const [color, setColor] = useState("#00000099");
 
   const handleFav = (event: React.MouseEvent) => {
     event.preventDefault();
 
-    if (color === '#00000099') {
-      setColor('red');
+    if (color === "#00000099") {
+      setColor("red");
     } else {
-      setColor('#00000099');
+      setColor("#00000099");
     }
   };
 
@@ -58,22 +58,26 @@ const MonsterCardList: React.FC<MonsterCardProps> = ({
       <ProgressBar
         variant="determinate"
         data-testid="card-monster-hp"
-        value={monster?.hp}></ProgressBar>
+        value={monster?.hp}
+      ></ProgressBar>
       <MonsterStats>Attack</MonsterStats>
       <ProgressBar
         variant="determinate"
         data-testid="card-monster-attack"
-        value={monster?.attack}></ProgressBar>
+        value={monster?.attack}
+      ></ProgressBar>
       <MonsterStats>Defense</MonsterStats>
       <ProgressBar
         variant="determinate"
         data-testid="card-monster-defense"
-        value={monster?.defense}></ProgressBar>
+        value={monster?.defense}
+      ></ProgressBar>
       <MonsterStats>Speed</MonsterStats>
       <ProgressBar
         variant="determinate"
         data-testid="card-monster-speed"
-        value={monster?.speed}></ProgressBar>
+        value={monster?.speed}
+      ></ProgressBar>
 
       <Grid
         container
@@ -81,11 +85,13 @@ const MonsterCardList: React.FC<MonsterCardProps> = ({
         justifyContent="center"
         alignItems="center"
         rowSpacing={1}
-        columnSpacing={2}>
-        <Grid item>
+        columnSpacing={2}
+      >
+        <Grid>
           <DeleteButton
             onClick={() => handleDelete(monster?.id)}
-            data-testid={MonsterCardTestIds.deleteBtn}>
+            data-testid={MonsterCardTestIds.deleteBtn}
+          >
             Delete
           </DeleteButton>
         </Grid>

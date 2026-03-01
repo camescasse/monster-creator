@@ -12,14 +12,15 @@ React + TypeScript project that let's you create different kinds of Monsters wit
    ```
    npm install
    ```
+
 5. Run the app locally:
 
    ```
    npm run dev
    ```
-   
+
 > [!IMPORTANT]
-> The recommended Node.js version is: ```v16.10.0-v17.0.0```
+> The recommended Node.js version is: `v25+`
 
 ## Testing
 
@@ -44,7 +45,7 @@ Create a `.env` file in the project root, and define the following key/value pai
 
 `BASE_URL="*"`
 
-Default for testing against local environment should be: `http://localhost:3000/`
+Default for testing against local environment should be: `http://localhost:5173/`
 
 For testing against production, the web app is currently deployed in `https://monster-creator.camescasse.dev/`
 
