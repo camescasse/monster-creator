@@ -16,8 +16,17 @@ React + TypeScript project that let's you create different kinds of Monsters wit
 5. Run the app locally:
 
    ```
-   npm run dev
+    npm run dev
    ```
+
+## Docker Deployment
+
+This project includes a production `Dockerfile` that builds the Vite app and serves it with Caddy.
+
+- Exposed container port: `80`
+- SPA fallback is configured via `Caddyfile`
+
+For Coolify, use Dockerfile-based deployment instead of Nixpacks to ensure the Node.js 25 build stage is used.
 
 > [!IMPORTANT]
 > The recommended Node.js version is: `v25+`

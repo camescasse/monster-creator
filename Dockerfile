@@ -1,11 +1,19 @@
-FROM node:20.15.1-alpine3.20
-RUN addgroup app && adduser -S -G app app
-USER app
+FROM node:25-alpine AS build
+
 WORKDIR /app
-COPY --chown=app:node package*.json .
-RUN npm install
-RUN mkdir data
+
+COPY package*.json ./
+
+# Cypress is not needed for production image builds.
+ENV CYPRESS_INSTALL_BINARY=0
+RUN npm ci
+
 COPY . .
-ENV BASE_URL="http://localhost:3000"
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN npm run build
+
+FROM caddy:2-alpine
+
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY --from=build /app/dist /srv
+
+EXPOSE 80
