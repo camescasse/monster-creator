@@ -23,7 +23,7 @@ React + TypeScript project that let's you create different kinds of Monsters wit
 
 This project includes a production `Dockerfile` that builds the Vite app and serves it with Caddy.
 
-- Exposed container port: `80`
+- Exposed container port: `3000` (or `$PORT` if provided by platform)
 - SPA fallback is configured via `Caddyfile`
 
 For Coolify, use Dockerfile-based deployment instead of Nixpacks to ensure the Node.js 25 build stage is used.
