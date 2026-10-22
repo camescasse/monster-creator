@@ -17,7 +17,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16.20.x'
+          node-version: '24'
 
       - name: Install dependencies
         run: npm ci
@@ -29,6 +29,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: npm run dev
+          start: npm run dev -- --port 3000 --strictPort
           wait-on: 'http://localhost:3000/'
           runTests: npm run cy:hl
