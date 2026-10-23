@@ -27,7 +27,7 @@ jobs:
           echo "BASE_URL=${{ vars.BASE_URL }}" > .env
 
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           start: npm run dev -- --port 3000 --strictPort
           wait-on: 'http://localhost:3000/'
